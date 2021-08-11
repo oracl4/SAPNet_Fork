@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is foked SAPNet implementation that have been modified to match our research dataset and some function modification. All rights reserved to the original owner.
+This is forked SAPNet implementation that have been modified to match our research dataset and some function modification. All rights reserved to the original owner.
 
 This is the forked version of this paper [implementation](https://isrc.iscas.ac.cn/gitlab/research/domain-adaption).
 
