@@ -1,0 +1,49 @@
+MODEL:
+  BACKBONE:
+    NAME: 'vgg16'
+  RPN:
+    ANCHOR_SIZES: (32, 64, 128, 256, 512)
+  ROI_BOX_HEAD:
+    NUM_CLASSES: 5
+    BOX_PREDICTOR: 'vgg16_predictor'
+    POOL_TYPE: 'pooling'
+ADV:
+  LAYERS: [False, False, True]
+  DIS_MODEL:
+    - in_channels: 512
+      func_name: 'cross_entropy'
+      pool_type: 'avg'
+      loss_weight: 0.35
+      window_strides: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+      window_sizes: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 35, 37]
+DATASETS:
+  TRAINS: ['cityscapes_itri_train']
+  TARGETS: ['itri_train']
+  TESTS: ['itri_test']
+INPUT:
+  TRANSFORMS_TRAIN:
+    - name: 'random_flip'
+    - name: 'resize'
+      min_size: 600
+    - name: 'normalize'
+      mean: [0.5, 0.5, 0.5]
+      std: [0.5, 0.5, 0.5]
+      to_01: True
+    - name: 'collect'
+  TRANSFORMS_TEST:
+    - name: 'resize'
+      min_size: 600
+    - name: 'normalize'
+      mean: [0.5, 0.5, 0.5]
+      std: [0.5, 0.5, 0.5]
+      to_01: True
+    - name: 'collect'
+SOLVER:
+  EPOCHS: 30
+  STEPS: (16, 22)
+  LR: 1e-5
+  BATCH_SIZE: 2
+TEST:
+  EVAL_TYPES: ['voc']
+
+WORK_DIR: './debug/itri/adversarial_training_lambda_35'
